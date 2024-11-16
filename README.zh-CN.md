@@ -1,9 +1,11 @@
+# KHTimeUnit
+
 <div align="center">
 
 <h1>⏱️ KHTimeUnit</h1>
 
 <p align="center">
-  <b>A TypeScript library for KH Time Unit system - an innovative and intuitive way to measure time.</b>
+  <b>KH时间度量系统 - 一种直观的"模糊"时间度量方式</b>
 </p>
 
 <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
@@ -23,163 +25,173 @@
 ---
 
 <p align="center">
-  <b>🌟 Fuzzy Time Units</b> &nbsp;|&nbsp; 
-  <b>🔄 Multiple Formats</b> &nbsp;|&nbsp; 
-  <b>⚡ Zero Dependencies</b>
+  <b>🌟 模糊时间单位</b> &nbsp;|&nbsp; 
+  <b>🔄 多种格式</b> &nbsp;|&nbsp; 
+  <b>⚡ 零依赖</b>
 </p>
 
-## 🌟 Features
+## 🌟 特性
 
-- **Fuzzy Time Units**: Three-level time measurement system
-  - `cc`: 80-100 minutes (avg. 90 min)
-  - `pomo`: 20-40 minutes (avg. 30 min)
-  - `q`: 10-20 minutes (avg. 15 min)
-- **Multiple Input Formats**: Support string, number, and object inputs
-- **Rich Formatting Options**: Various output formats for different scenarios
-- **Time Range Calculations**: Built-in support for time range operations
-- **Type Safety**: Full TypeScript support with strict type checking
-- **Zero Dependencies**: Lightweight and efficient
+- **模糊时间单位**: 三级时间度量系统
+  - `cc`: 80-100 分钟 (平均 90 分钟)
+  - `pomo`: 20-40 分钟 (平均 30 分钟)
+  - `q`: 10-20 分钟 (平均 15 分钟)
+- **多种输入格式**: 支持字符串、数字和对象输入
+- **丰富的格式化选项**: 适应不同场景的输出格式
+- **时间范围计算**: 内置时间范围运算支持
+- **类型安全**: 完整的 TypeScript 支持和严格类型检查
+- **零依赖**: 轻量且高效
 
-## 🎯 Core Features
+## 🎯 核心功能
 
-### Time Unit Operations
+### 时间单位运算
 
 ```typescript
-const time = new KHTimeUnit("1cc"); // 90 minutes
+const time = new KHTimeUnit("1cc"); // 90 分钟
 
-// Scaling
-const doubled = time.scale(2);      // "2cc" (180 minutes)
-const halved = time.scale(0.5);     // "2pomo" (45 minutes)
+// 缩放
+const doubled = time.scale(2);      // "2cc" (180 分钟)
+const halved = time.scale(0.5);     // "2pomo" (45 分钟)
 
-// Cloning
-const clone = time.clone();         // Create an independent copy
+// 克隆
+const clone = time.clone();         // 创建独立副本
 
-// Range Checking
-const isInRange = time.isWithinRange(100);  // Check if 100 minutes falls within the time range
+// 范围检查
+const isInRange = time.isWithinRange(100);  // 检查 100 分钟是否在时间范围内
 ```
 
-### Advanced Time Estimation
+### 高级时间估算
 
 ```typescript
 const estimate = KHTimeUnit.estimateFromMinutes(150);
 
-// Get minimal representation (using maximum unit values)
-console.log(estimate.asMinimal.toString());  // e.g., "2cc"
+// 获取最小表示（使用最大单位值）
+console.log(estimate.asMinimal.toString());  // 例如："2cc"
 console.log(estimate.asMinimal.getTimeRange());  // { min: 120, max: 240 }
 
-// Get maximal representation (using minimum unit values)
-console.log(estimate.asMaximal.toString());  // e.g., "1cc 2pomo"
+// 获取最大表示（使用最小单位值）
+console.log(estimate.asMaximal.toString());  // 例如："1cc 2pomo"
 console.log(estimate.asMaximal.getTimeRange());  // { min: 100, max: 200 }
 
-// Get average approximation
-console.log(estimate.asAverage.toString());  // Best approximation of 150 minutes
+// 获取平均近似值
+console.log(estimate.asAverage.toString());  // 最接近 150 分钟的表示
 console.log(estimate.asAverage.toMinutes()); // 150
 ```
 
-### Range Calculations
+### 范围计算
 
 ```typescript
-const time = new KHTimeUnit("1cc 1pomo"); // 90 + 30 = 120 minutes
+const time = new KHTimeUnit("1cc 1pomo"); // 90 + 30 = 120 分钟
 
-// Get time range
+// 获取时间范围
 const range = time.getTimeRange();
 console.log(range); // { min: 80, max: 160 }
 
-// Check if duration falls within range
+// 检查持续时间是否在范围内
 console.log(time.isWithinRange(100)); // true
 console.log(time.isWithinRange(200)); // false
 
-// Sum ranges of multiple time units
+// 计算多个时间单位的范围总和
 const ranges = KHTimeUnit.sumRange([
-  new KHTimeUnit("1cc"),    // 80-100 min
-  new KHTimeUnit("1pomo"),  // 20-40 min
+  new KHTimeUnit("1cc"),    // 80-100 分钟
+  new KHTimeUnit("1pomo"),  // 20-40 分钟
 ]);
 console.log(ranges); // { min: 100, max: 140, average: 120 }
 ```
 
-## 📦 Installation
+## 📦 安装
 
 ```bash
-# Using npm
+# 使用 npm
 npm install @bagaking/khtimeunit
 
-# Using yarn
+# 使用 yarn
 yarn add @bagaking/khtimeunit
 
-# Using pnpm
+# 使用 pnpm
 pnpm add @bagaking/khtimeunit
 ```
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
 ```typescript
 import { KHTimeUnit, FORMAT_TEMPLATES } from '@bagaking/khtimeunit';
 
-// Create from string
+// 从字符串创建
 const time = new KHTimeUnit("1cc 2pomo");
 
-// Different format outputs
+// 不同格式的输出
 console.log(time.toString(FORMAT_TEMPLATES.KH));        // "1cc 2pomo"
 console.log(time.toString(FORMAT_TEMPLATES.HUMAN));     // "02小时 30分钟"
 console.log(time.toString(FORMAT_TEMPLATES.STANDARD));  // "02:30:00"
 console.log(time.toString(FORMAT_TEMPLATES.SIMPLE));    // "2h 30m"
 
-// Time calculations
+// 时间计算
 const minutes = time.toMinutes();  // 150
 const hours = time.toHours();      // 2.5
 const range = time.getTimeRange(); // { min: 100, max: 200 }
 ```
 
-## 📖 Usage Examples
+## 📖 使用示例
 
-### Creating Time Units
+### 创建时间单位
 
 ```typescript
-// From string
+// 从字符串创建
 const time1 = new KHTimeUnit("1cc 2pomo 3q");
 
-// From minutes
+// 从分钟数创建
 const time2 = new KHTimeUnit(150);
 
-// From object
+// 从对象创建
 const time3 = new KHTimeUnit({ cc: 1, pomo: 2, q: 3 });
 
-// Using factory methods
+// 使用工厂方法
 const time4 = KHTimeUnit.fromHours(2.5);
 const time5 = KHTimeUnit.fromSeconds(9000);
 ```
 
-### Time Operations
+### 时间运算
 
 ```typescript
-const time1 = new KHTimeUnit("1cc");    // 90 minutes
-const time2 = new KHTimeUnit("2pomo");   // 60 minutes
+const time1 = new KHTimeUnit("1cc");    // 90 分钟
+const time2 = new KHTimeUnit("2pomo");   // 60 分钟
 
-// Addition
+// 加法
 const sum = time1.add(time2);
 console.log(sum.toString());  // "1cc 2pomo"
 
-// Subtraction
+// 减法
 const diff = time1.subtract(time2);
 console.log(diff.toString()); // "1pomo"
 
-// Comparisons
+// 比较
 console.log(time1.isLongerThan(time2));  // true
 console.log(time1.isShorterThan(time2)); // false
 console.log(time1.equals(time2));        // false
 ```
 
-## 🛠️ API Reference
+### 时间估算
 
-### Class: KHTimeUnit
+```typescript
+const estimate = KHTimeUnit.estimateFromMinutes(150);
 
-#### Constructor
+console.log(estimate.asMinimal.toString());  // 最小所需单位
+console.log(estimate.asMaximal.toString());  // 最大可能单位
+console.log(estimate.asAverage.toString());  // 平均近似值
+```
+
+## 🛠️ API 参考
+
+### 类：KHTimeUnit
+
+#### 构造函数
 
 ```typescript
 constructor(input: number | string | KHTimeUnitInput)
 ```
 
-#### Static Methods
+#### 静态方法
 
 ```typescript
 static fromHours(hours: number): KHTimeUnit
@@ -188,7 +200,7 @@ static fromSeconds(seconds: number): KHTimeUnit
 static estimateFromMinutes(minutes: number): EstimationResult
 ```
 
-#### Instance Methods
+#### 实例方法
 
 ```typescript
 toString(format?: FormatTemplate | string): string
@@ -203,26 +215,26 @@ isShorterThan(other: KHTimeUnit): boolean
 equals(other: KHTimeUnit): boolean
 ```
 
-## 🤝 Contributing
+## 🤝 贡献
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+欢迎贡献！请随时提交 Pull Request。重大更改则请先开启一个 issue 讨论您想要改变的内容。
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork 仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m '添加一些很棒的特性'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
 
-## 📄 License
+## 📄 许可证
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
 
-## 🙏 Acknowledgments
+## 🙏 致谢
 
-- Inspired by the KH Time Unit System (thanks for hard work everyday)
-- Thanks to all contributors who have helped this project
+- 灵感来源于日复一日的高强度工作
+- 感谢所有为这个项目做出贡献的人
 
-## 📧 Contact
+## 📧 联系方式
 
-- Author: bagaking
-- GitHub: [@bagaking](https://github.com/bagaking)
+- 作者：bagaking
+- GitHub：[@bagaking](https://github.com/bagaking)
